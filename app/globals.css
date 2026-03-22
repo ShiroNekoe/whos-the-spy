@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --noir: #0A0A0F;
+  --noir-2: #12121A;
+  --noir-3: #1C1C28;
+  --noir-4: #252535;
+  --gold: #F5C842;
+  --crimson: #E63946;
+  --jade: #2EC4B6;
+  --lavender: #9B72CF;
+  --smoke: #8888AA;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: var(--noir);
+  color: #E8E8F0;
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--noir-2);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--noir-4);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--smoke);
+}
+
+/* Card flip */
+.perspective {
+  perspective: 1000px;
+}
+
+.card-flip {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.card-flip.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+/* Noise texture overlay */
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.04;
+}
+
+/* Glow effects */
+.glow-gold {
+  box-shadow: 0 0 20px rgba(245, 200, 66, 0.3), 0 0 60px rgba(245, 200, 66, 0.1);
+}
+
+.glow-crimson {
+  box-shadow: 0 0 20px rgba(230, 57, 70, 0.4), 0 0 60px rgba(230, 57, 70, 0.15);
+}
+
+.glow-jade {
+  box-shadow: 0 0 20px rgba(46, 196, 182, 0.3), 0 0 60px rgba(46, 196, 182, 0.1);
+}
+
+.glow-lavender {
+  box-shadow: 0 0 20px rgba(155, 114, 207, 0.3), 0 0 60px rgba(155, 114, 207, 0.1);
+}
+
+/* Pulse ring */
+@keyframes ping-slow {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.ping-slow {
+  animation: ping-slow 2s ease-out infinite;
+}
+
+/* Grid pattern background */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Scanline effect */
+.scanlines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.05) 2px,
+    rgba(0, 0, 0, 0.05) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+/* Role colors */
+.role-civilian { color: var(--jade); }
+.role-undercover { color: var(--crimson); }
+.role-white { color: #E8E8F0; }
+
+.role-bg-civilian { background-color: rgba(46, 196, 182, 0.15); border-color: rgba(46, 196, 182, 0.4); }
+.role-bg-undercover { background-color: rgba(230, 57, 70, 0.15); border-color: rgba(230, 57, 70, 0.4); }
+.role-bg-white { background-color: rgba(232, 232, 240, 0.1); border-color: rgba(232, 232, 240, 0.3); }
+
+/* Animated gradient border */
+@keyframes border-spin {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gradient-border {
+  background: linear-gradient(var(--noir-3), var(--noir-3)) padding-box,
+    linear-gradient(135deg, var(--gold), var(--lavender), var(--jade)) border-box;
+  border: 1px solid transparent;
+}
+
+/* Player card hover */
+.player-card {
+  transition: all 0.2s ease;
+}
+.player-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Vote highlight */
+@keyframes vote-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.vote-active {
+  animation: vote-pulse 1.5s ease-in-out infinite;
+}
+
+/* Timer */
+@keyframes countdown {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 283; }
+}
+
+/* Eliminated player */
+.player-eliminated {
+  opacity: 0.4;
+  filter: grayscale(1);
+  text-decoration: line-through;
+}
+
+/* Transition utilities */
+.transition-all-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

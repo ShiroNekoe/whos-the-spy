@@ -1,0 +1,13 @@
+// lib/pusher-client.ts
+import PusherJs from 'pusher-js';
+
+let pusherClient: PusherJs;
+
+export function getPusherClient(): PusherJs {
+  if (!pusherClient) {
+    pusherClient = new PusherJs(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+    });
+  }
+  return pusherClient;
+}
